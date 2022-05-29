@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "bunyan": "^1.8.15",
+    "ftp": "^0.3.10",
+    "ftp-srv": "^4.6.1",
+    "jsftp": "^2.1.3",
+    "readline-sync": "^1.4.10"
+  }
+}
