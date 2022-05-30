@@ -19,7 +19,7 @@ function commands(c, command) {
       }
       )
       break;
-      
+
     case "rmdir":
       var dir = readlineSync.question('Digite o nome do diretorio: ');
       c.rmdir(dir, function (err) {
