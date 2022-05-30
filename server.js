@@ -20,7 +20,16 @@ ftpServer.on('login', ({ connection, username, password }, resolve, reject) => {
       }
       console.info(`FTP server: upload successfully received - ${fileName}`);
     });
-    console.log(process.cwd())
+
+    // implement put command
+
+    connection.on('PUT', (error, fileName) => {
+      if (error) {
+        console.error(`FTP server error: could not receive file ${fileName} for upload ${error}`);
+      }
+      console.info(`FTP server: upload successfully received - ${fileName}`);
+    })
+
     resolve({ root: `${process.cwd()}/public` });
   }
   return reject(new errors.GeneralError('Invalid username or password', 401));

@@ -1,7 +1,7 @@
 var Client = require('ftp');
 var readlineSync = require('readline-sync');
 var c = new Client();
-
+var fs = require('fs');
 function commands(c, command) {
   switch (command) {
     case 'mkdir':
@@ -70,12 +70,21 @@ function commands(c, command) {
 
     case "put":
       var file = readlineSync.question('Digite o nome do arquivo: ');
-      c.put('remote/teste/foo.txt', 'remote/teste/foo.remote-copy.txt', function (err) {
-        if (err) throw console.log(
-          err
-        );
-        c.end();
-      });
+      //implement put command
+
+      fs.writeFile(file, '', function (err) {
+        if (err) throw err;
+        console.log('Arquivo criado!');
+        var isBack = readlineSync.question('Deseja voltar? (s/n) ');
+        if (isBack === 'y') {
+          commands(c, 'voltar');
+        } else {
+          commands(c, 'sair');
+          c.end();
+        }
+      }
+      )
+
       break;
     default:
       console.log("comando não encontrado");
