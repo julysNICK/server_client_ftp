@@ -1,41 +1,41 @@
 const FtpSrv = require('ftp-srv');
+const objectFunction = require('./allFunction');
 
 const hostname = '0.0.0.0';
 const port = 1111
 
 const ftpServer = new FtpSrv('ftp://' + hostname + ':' + port,
-  { anonymous: true, greeting: ["Hello Jong", "Wie gehts?"] });
 
+  {
+    whitelist: ['STOR', 'USER', 'PASS', 'TYPE', 'RETR', 'PASV', 'QUIT'],
+    anonymous: true,
+
+    greeting: ["Hello Jong", "Wie gehts?"]
+
+  });
+
+const users = [
+  {
+    name: 'admin',
+    password: 'admin'
+  },
+  {
+    name: 'user1',
+    password: '123456789',
+  },
+  {
+    name: 'user2',
+    password: '123456789',
+  }
+]
 ftpServer.on('login', ({ connection, username, password }, resolve, reject) => {
-  if (username === 'anonymous' && password === 'anonymous') {
-
-    connection.on('command', (command, callback) => {
-      console.log(command)
-      callback(null, '200 OK', 'Hello ' + username);
-    }
-    )
-    connection.on('STOR', (error, fileName) => {
-      if (error) {
-        console.error(`FTP server error: could not receive file ${fileName} for upload ${error}`);
-      }
-      console.info(`FTP server: upload successfully received - ${fileName}`);
-    });
-
-    // implement put command
-
-    connection.on('PUT', (error, fileName) => {
-      if (error) {
-        console.error(`FTP server error: could not receive file ${fileName} for upload ${error}`);
-      }
-      console.info(`FTP server: upload successfully received - ${fileName}`);
-    })
-
+  if (users.find(user => user.name === username && user.password === password)) {
+    objectFunction.enablingServicesWithConnectionOn('STOR', connection, 'FTP server: upload successfully received', 'FTP server error: could not receive file');
+    objectFunction.enablingServicesWithConnectionOn('RETR', connection, 'FTP server: download successfully received', 'FTP server error: could not receive file');
+    objectFunction.enablingServicesWithConnectionOn("RNTO", connection, 'FTP server: rename successfully received', 'FTP server error: could not rename file');
     resolve({ root: `${process.cwd()}/public` });
   }
-  return reject(new errors.GeneralError('Invalid username or password', 401));
-  console.log('resolve: ' + resolve);
-  console.log('reject: ' + reject);
-
+  return reject(new Error('Invalid username or password' + " " + 401));
 });
 
 ftpServer.on('client-error', (connection, context, error) => {
@@ -43,9 +43,6 @@ ftpServer.on('client-error', (connection, context, error) => {
   console.log('context: ' + context);
   console.log('error: ' + error);
 });
-
-
-
 
 ftpServer.listen()
   .then(() => {
