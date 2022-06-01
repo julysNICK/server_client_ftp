@@ -35,11 +35,12 @@ ftpServer.on('login', ({ connection, username, password }, resolve, reject) => {
     objectFunction.enablingServicesWithConnectionOn("RNTO", connection, 'FTP server: rename successfully received', 'FTP server error: could not rename file');
     resolve({ root: `${process.cwd()}/public` });
   }
-  return reject(new Error('Invalid username or password' + " " + 401));
+  return reject(new errors.GeneralError('Invalid username or password', 401));
+
 });
 
 ftpServer.on('client-error', (connection, context, error) => {
-  console.log('connection: ' + connection);
+  console.log(connection);
   console.log('context: ' + context);
   console.log('error: ' + error);
 });

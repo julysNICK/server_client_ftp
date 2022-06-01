@@ -94,17 +94,10 @@ function commands(c, command) {
 }
 
 
-
-
 c.on('ready', function (
 ) {
-
-
   var typeCommand = readlineSync.question('type command: ');
   commands(c, typeCommand);
-
-
-
 });
 // connect to localhost:21 as anonymous
 c.connect({
