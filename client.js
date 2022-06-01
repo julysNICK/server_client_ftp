@@ -72,7 +72,7 @@ function commands(c, command) {
       var file = readlineSync.question('Digite o nome do arquivo: ');
       //implement put command
 
-      fs.writeFile(file, '', function (err) {
+      fs.writeFile(`${process.cwd()}/public/${file}`, '', function (err) {
         if (err) throw err;
         console.log('Arquivo criado!');
         var isBack = readlineSync.question('Deseja voltar? (s/n) ');
@@ -94,17 +94,10 @@ function commands(c, command) {
 }
 
 
-
-
 c.on('ready', function (
 ) {
-
-
   var typeCommand = readlineSync.question('type command: ');
   commands(c, typeCommand);
-
-
-
 });
 // connect to localhost:21 as anonymous
 c.connect({

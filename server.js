@@ -33,19 +33,14 @@ ftpServer.on('login', ({ connection, username, password }, resolve, reject) => {
     resolve({ root: `${process.cwd()}/public` });
   }
   return reject(new errors.GeneralError('Invalid username or password', 401));
-  console.log('resolve: ' + resolve);
-  console.log('reject: ' + reject);
 
 });
 
 ftpServer.on('client-error', (connection, context, error) => {
-  console.log('connection: ' + connection);
+  console.log(connection);
   console.log('context: ' + context);
   console.log('error: ' + error);
 });
-
-
-
 
 ftpServer.listen()
   .then(() => {
