@@ -74,7 +74,8 @@ function commands(c, command) {
 
       fs.writeFile(`${process.cwd()}/public/${file}`, '', function (err) {
         if (err) throw err;
-        console.log('Arquivo criado!');
+        //if created successfully launch code successfully ftp
+
         var isBack = readlineSync.question('Deseja voltar? (s/n) ');
         if (isBack === 'y') {
           commands(c, 'voltar');
@@ -84,7 +85,6 @@ function commands(c, command) {
         }
       }
       )
-
       break;
     default:
       console.log("comando não encontrado");
